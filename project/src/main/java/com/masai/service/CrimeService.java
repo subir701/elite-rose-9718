@@ -1,4 +1,4 @@
-package com.masai.DAO;
+package com.masai.service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import com.masai.Exception.NoRecordFoundException;
 import com.masai.Exception.SomethingWentWrongFetchingException;
 import com.masai.Exception.SomethingWrongAddingException;
 
-public interface CrimeDAO {
+public interface CrimeService {
 	void addCrime(Crime crime) throws SomethingWrongAddingException;
 	List<Crime> getCrimeList()throws SomethingWentWrongFetchingException, NoRecordFoundException;
 	void updateCrime(Crime crime)throws SomethingWentWrongFetchingException, NoRecordFoundException;

@@ -1,8 +1,11 @@
 package com.masai.DAO;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.masai.Entity.Crime;
+import com.masai.Entity.Criminal;
 import com.masai.Exception.NoRecordFoundException;
 import com.masai.Exception.SomethingWentWrongFetchingException;
 import com.masai.Exception.SomethingWrongAddingException;
@@ -95,6 +98,58 @@ public class CrimeDAOImpl implements CrimeDAO{
 			et.commit();
 		}catch(PersistenceException ex) {
 			throw new SomethingWentWrongFetchingException("Unable to process request, try again later");
+		}finally {
+			em.close();
+		}
+		
+	}
+
+	@Override
+	public void assignCrime(int crime_id, int criminal_id)
+			throws SomethingWentWrongFetchingException, NoRecordFoundException {
+		EntityManager em=null;
+		try {
+			em=DButils.getConnection();
+			Crime crime=em.find(Crime.class, crime_id);
+			Criminal criminal=em.find(Criminal.class, criminal_id);
+			if(crime==null)
+				throw new NoRecordFoundException("No crime is found of given id "+crime_id);
+			if(criminal == null)
+				throw new NoRecordFoundException("No criminal is found of given id "+criminal_id);
+			EntityTransaction et=em.getTransaction();
+			et.begin();
+			Set<Criminal> set=new HashSet<>();
+			set.add(criminal);
+			crime.setList(set);
+			et.commit();
+		}catch(PersistenceException ex) {
+			throw new SomethingWentWrongFetchingException("Unable to procced , try again later");
+		}finally {
+			em.close();
+		}
+		
+	}
+
+	@Override
+	public void removeCriminal(int crime_id, int criminal_id)
+			throws SomethingWentWrongFetchingException, NoRecordFoundException {
+		EntityManager em=null;
+		try {
+			em=DButils.getConnection();
+			Crime crime=em.find(Crime.class, crime_id);
+			Criminal criminal=em.find(Criminal.class, criminal_id);
+			if(crime==null)
+				throw new NoRecordFoundException("No crime is found of given id "+crime_id);
+			if(criminal == null)
+				throw new NoRecordFoundException("No criminal is found of given id "+criminal_id);
+			EntityTransaction et=em.getTransaction();
+			et.begin();
+			Set<Criminal> set=crime.getList();
+			set.remove(criminal);
+			crime.setList(set);
+			et.commit();
+		}catch(PersistenceException ex) {
+			throw new SomethingWentWrongFetchingException("Unable to procced , try again later");
 		}finally {
 			em.close();
 		}
