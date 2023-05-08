@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 
@@ -24,9 +26,17 @@ public class Crime {
 	private String ps_area;
 	@Column(nullable = false)
 	private LocalDate date;
-	@Column(nullable = false)
+	@Column(name = "victims_name",nullable = false)
 	private ArrayList<String> name;
-	@Column(nullable = false)
+	@Column(name = "is_Deleted", nullable = false)
+	private int isDeleted;
+	public int getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	@ManyToMany(mappedBy = "crime", cascade = CascadeType.ALL)
 	private Set<Criminal> list;
 	public Crime() {
 		super();
@@ -86,8 +96,9 @@ public class Crime {
 	}
 	@Override
 	public String toString() {
-		return "Crime [crimeId=" + crimeId + ", type=" + type + ", description=" + description + ", ps_area=" + ps_area
-				+ ", date=" + date + ", name=" + name + ", list=" + list + "]";
+		return "crimeId=" + crimeId + " | type=" + type + " | description=" + description + " | ps_area=" + ps_area
+				+ " | date=" + date + " | name=" + name + " | criminal=" + list + " | isDeleted="+isDeleted;
 	}
+	
 	
 }
