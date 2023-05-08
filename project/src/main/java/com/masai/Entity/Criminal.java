@@ -49,7 +49,7 @@ public class Criminal {
 		// TODO Auto-generated constructor stub
 	}
 	public Criminal(String name, LocalDate dob, char gender, String identifying_marks, LocalDate first_arrest_date,
-			String arrested_ps_area) {
+			String arrested_ps_area,Set<Crime> list) {
 		super();
 		this.name = name;
 		this.dob = dob;
@@ -57,6 +57,7 @@ public class Criminal {
 		this.identifying_marks = identifying_marks;
 		this.first_arrest_date = first_arrest_date;
 		this.arrested_ps_area = arrested_ps_area;
+		this.list=list;
 	}
 	public int getCriminalId() {
 		return criminalId;
